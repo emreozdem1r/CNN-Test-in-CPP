@@ -1,0 +1,12 @@
+﻿  CNN.cpp
+C:\Users\Emre\source\repos\CNN\CNN\Conv3D.h(68,77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Emre\source\repos\CNN\CNN\Conv3D.h(88,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Emre\source\repos\CNN\CNN\Weights.h(32,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Emre\source\repos\CNN\CNN\Weights.h(52,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Emre\source\repos\CNN\CNN\CNN.cpp(54,53): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating code
+  3 of 187 functions ( 1.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  CNN.vcxproj -> C:\Users\Emre\source\repos\CNN\x64\Release\CNN.exe

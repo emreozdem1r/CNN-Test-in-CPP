@@ -1,0 +1,162 @@
+# depslib dependency file v1.0
+1585504338 source:c:\users\muhammed\documents\codeblocks_projeleri\dataset_oku\main.cpp
+	<iostream>
+	"mnist/mnist_reader.hpp"
+
+1567874949 c:\users\muhammed\documents\codeblocks_projeleri\dataset_oku\mnist\mnist_reader.hpp
+	<fstream>
+	<iostream>
+	<string>
+	<vector>
+	<cstdint>
+	<memory>
+	"mnist_reader_common.hpp"
+
+1567874949 c:\users\muhammed\documents\codeblocks_projeleri\dataset_oku\mnist\mnist_reader_common.hpp
+
+1593351910 source:c:\users\emre\desktop\dataset_oku\main.cpp
+	<iostream>
+	"mnist/mnist_reader.hpp"
+	"cifar10_reader.hpp"
+	<stdlib.h>
+	<math.h>
+	"Neuron.h"
+	"Weights.h"
+	"Conv2D.h"
+	"Conv3D.h"
+
+1567874949 c:\users\emre\desktop\dataset_oku\mnist\mnist_reader.hpp
+	<fstream>
+	<iostream>
+	<string>
+	<vector>
+	<cstdint>
+	<memory>
+	"mnist_reader_common.hpp"
+
+1567874949 c:\users\emre\desktop\dataset_oku\mnist\mnist_reader_common.hpp
+
+1590236855 source:c:\users\emre\desktop\dataset_oku\src\neuron.cpp
+	"Neuron.h"
+	<iostream>
+	<string>
+	<fstream>
+	<stdlib.h>
+
+1590532677 c:\users\emre\desktop\dataset_oku\include\neuron.h
+
+1590235974 source:c:\users\emre\desktop\dataset_oku\src\weights.cpp
+	"Weights.h"
+	<iostream>
+	<stdlib.h>
+	<fstream>
+
+1590532678 c:\users\emre\desktop\dataset_oku\include\weights.h
+	<iostream>
+	<stdlib.h>
+
+1496667035 c:\users\emre\desktop\dataset_oku\cifar10_reader.hpp
+	<fstream>
+	<iostream>
+	<string>
+	<vector>
+	<cstdint>
+	<memory>
+
+1590078580 c:\users\emre\desktop\dataset_oku\include\conv2d.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+
+1590355147 source:c:\users\emre\desktop\dataset_oku\src\conv2d.cpp
+	"Conv2D.h"
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<fstream>
+
+1590355457 c:\users\emre\desktop\dataset_oku\include\conv3d.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+
+1590355478 source:c:\users\emre\desktop\dataset_oku\src\conv3d.cpp
+	"Conv3D.h"
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<fstream>
+
+1590355147 source:c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\src\conv2d.cpp
+	"Conv2D.h"
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<fstream>
+
+1590078580 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\include\conv2d.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+
+1590355478 source:c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\src\conv3d.cpp
+	"Conv3D.h"
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<fstream>
+
+1590355457 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\include\conv3d.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+
+1590236855 source:c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\src\neuron.cpp
+	"Neuron.h"
+	<iostream>
+	<string>
+	<fstream>
+	<stdlib.h>
+
+1590532677 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\include\neuron.h
+
+1590235974 source:c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\src\weights.cpp
+	"Weights.h"
+	<iostream>
+	<stdlib.h>
+	<fstream>
+
+1590532678 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\include\weights.h
+	<iostream>
+	<stdlib.h>
+
+1598392077 source:c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\main.cpp
+	<iostream>
+	"mnist/mnist_reader.hpp"
+	"cifar10_reader.hpp"
+	<stdlib.h>
+	<math.h>
+	"Neuron.h"
+	"Weights.h"
+	"Conv2D.h"
+	"Conv3D.h"
+
+1567874949 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\mnist\mnist_reader.hpp
+	<fstream>
+	<iostream>
+	<string>
+	<vector>
+	<cstdint>
+	<memory>
+	"mnist_reader_common.hpp"
+
+1567874949 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\mnist\mnist_reader_common.hpp
+
+1496667035 c:\users\emre\desktop\dersler\bitirme projesi\dataset_oku\cifar10_reader.hpp
+	<fstream>
+	<iostream>
+	<string>
+	<vector>
+	<cstdint>
+	<memory>
+

@@ -1,0 +1,276 @@
+/*
+    Conv3D conv3d;
+    conv3d.setLayerArrayAllocate(5, 5, 3, 3, 8);
+    conv3d.setLayerWeights("conv3d_kernel_1.txt", 5, 5, 3, 3, 8);
+    conv3d.setBias("conv3d_bias_1.txt", 8);
+
+    cout<<"conv"<<endl;
+    fstream oku("c3d_input.txt");
+    string row;
+    float input[32][32][10][3];
+    if(oku.is_open())
+    {
+        while(!oku.eof())
+        {
+            for(int a=0; a<32; a++)
+            {
+                for(int b=0; b<32; b++)
+                {
+                    for(int c=0; c<10; c++)
+                    {
+                        for(int d=0; d<3; d++)
+                        {
+                            oku >> row;
+                            //cout<<row<<endl;
+                            input[a][b][c][d] = atof(row.c_str());
+                            //cout<<temp[a][b][c][d]<<endl;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+    }
+
+    int bb = 0;
+    int cc = 0;
+    int dd = 0;
+    float result_conv[28][28][8][8];
+    for(int a=0; a<8; a++)  // nöron sayısı
+    {
+        bb = 0;
+        for(int b=1; b<10-(1); b++)///input frame sayısı ikinci convda = 8 olacak
+        {
+            cc = 0;
+            for(int c=2; c<32-(2); c++) ///input height
+            {
+                dd = 0;
+                for(int d=2; d<32-(2); d++)/// input width
+                {
+                    float top=0;
+                    for(int e=0; e<5; e++) /// mask height
+                    {
+                        for(int f=0; f<5; f++) /// mask width
+                        {
+                            for(int g=0; g<3; g++) /// mask  frame depth
+                            {
+                                for(int h=0; h<3; h++) /// mask depth 2. conv = 8 olacak
+                                {
+                                    top = top + input[c-2+e][d-2+f][b-1+g][h] * conv3d.getLayerWeights(e,f,g,h,a);
+                                }
+                            }
+                        }
+                    }
+                    top = top+ conv3d.getBias(a);
+                    //result_conv[cc][dd][bb][a] =top;
+                    result_conv[c-2][d-2][b-1][a] =top;
+
+                    dd = dd + 1;
+                }
+                cc = cc + 1;
+            }
+            bb = bb + 1;
+        }
+    }
+
+
+    int bb3 = 0;
+    int cc3 = 0;
+    int dd3 = 0;
+    float max_result[14][14][8][8];
+    for(int a=0; a<8; a++)  /// nöron derinliği
+    {
+        bb3 = 0;
+        for(int b=0; b<8; b++) /// input frame sayısı
+        {
+            cc3 = 0;
+            for(int c=0; c<28-1; c=c+2)       /// input frame height
+            {
+                dd3 = 0;
+                for(int d=0; d<28-1; d=d+2)     /// input frame width
+                {
+                    float enbuyuk=result_conv[c][d][b][a];
+                    for(int bb=0; bb<1; bb++)    /// mask frame depth
+                    {
+                        for(int cc=0; cc<2; cc++)  /// mask height
+                        {
+                            for(int dd=0; dd<2; dd++)  /// mask weight
+                            {
+                                if(result_conv[c+cc][d+dd][b+bb][a] > enbuyuk)
+                                {
+                                    enbuyuk = result_conv[c+cc][d+dd][b+bb][a];
+                                }
+                            }
+                        }
+                    }
+                    max_result[cc3][dd3][bb3][a] = enbuyuk;
+                    dd3 = dd3 + 1;
+                }
+                cc3 = cc3 + 1;
+            }
+            bb3 = bb3 + 1;
+        }
+    }
+
+
+    Conv3D conv2_3d;
+    conv2_3d.setLayerArrayAllocate(5,5,3,8,16);
+    conv2_3d.setLayerWeights("conv3d_kernel_2.txt", 5, 5, 3, 8, 16);
+    conv2_3d.setBias("conv3d_bias_2.txt", 16);
+
+    bb = 0;
+    cc = 0;
+    dd = 0;
+    float result_conv2[10][10][6][16];
+    for(int a=0; a<16; a++)  /// nöron sayısı
+    {
+        bb = 0;
+        for(int b=1; b<8-(1); b++)///input frame sayısı ikinci convda = 8 olacak
+        {
+            cc = 0;
+            for(int c=2; c<14-(2); c++) ///input height
+            {
+                dd = 0;
+                for(int d=2; d<14-(2); d++)/// input width
+                {
+                    float top=0;
+                    for(int e=0; e<5; e++) /// mask height
+                    {
+                        for(int f=0; f<5; f++) /// mask width
+                        {
+                            for(int g=0; g<3; g++) /// mask  frame depth
+                            {
+                                for(int h=0; h<8; h++) /// mask depth 2. conv = 8 olacak
+                                {
+                                    top = top + max_result[c-2+e][d-2+f][b-1+g][h] * conv2_3d.getLayerWeights(e,f,g,h,a);
+                                }
+                            }
+                        }
+                    }
+                    top = top + conv2_3d.getBias(a);
+                    result_conv2[c-2][d-2][b-1][a] = top;
+                    dd = dd + 1;
+                }
+                cc = cc + 1;
+            }
+            bb = bb + 1;
+        }
+    }
+
+
+    bb3 = 0;
+    cc3 = 0;
+    dd3 = 0;
+    float ****max_result_2 = arrayAllocate3d(5, 5, 3, 16);
+
+    ///float max_result_2[5][5][3][16];
+    for(int a=0; a<16; a++)  /// nöron derinliği
+    {
+        bb3 = 0;
+        for(int b=0; b<3; b++) /// input frame sayısı
+        {
+            cc3 = 0;
+            for(int c=0; c<10; c=c+2)       /// input frame height
+            {
+                dd3 = 0;
+                for(int d=0; d<10; d=d+2)     /// input frame width
+                {
+                    float enbuyuk=result_conv2[c][d][b][a];
+                    for(int bb=0; bb<2; bb++)    /// mask frame depth
+                    {
+                        for(int cc=0; cc<2; cc++)  /// mask height
+                        {
+                            for(int dd=0; dd<2; dd++)  /// mask weight
+                            {
+                                if(result_conv2[c+cc][d+dd][b+bb][a] > enbuyuk)
+                                {
+                                    enbuyuk = result_conv2[c+cc][d+dd][b+bb][a];
+                                }
+                            }
+                        }
+                    }
+                    //cout<<"cc3 : ["<<cc3<<"]  dd3: ["<<dd3<<"]   bb3: ["<<bb3<<"]  a : "<<a<<endl;
+                    max_result_2[cc3][dd3][bb3][a] = enbuyuk;
+
+                    dd3 = dd3 + 1;
+                }
+                cc3 = cc3 + 1;
+            }
+            bb3 = bb3 + 1;
+        }
+    }
+ofstream bakk("yaz.txt");
+    for(int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            for(int k=0; k<3; k++)
+            {
+                for(int m=0; m<16; m++)
+                {
+                    bakk<<max_result_2[i][j][k][m]<<"  ";
+                }
+                bakk<<endl;
+            }
+            bakk<<endl;
+        }
+    }
+    Weights convWeights(32,38400,16,512);
+    convWeights.setFirstLayerBias("conv3d_fc_bias_1.txt");
+    convWeights.setFirstLayerWeight("conv3d_fc_kernel_1.txt");
+    convWeights.setSecondLayerBias("conv3d_fc_bias_2.txt");
+    convWeights.setSecondLayerWeight("conv3d_fc_kernel_2.txt");
+
+    float firstTemp[32] = { 0 } , secondTemp[16] = { 0 };
+
+        Neuron firstLayerNeuron;
+        int firstLayerNeuronSize = 32;
+        int counter=0, index;
+        float *flattenArray = flatten3d(max_result_2,5,5,3,16);
+
+        ofstream yazz("yaz.txt");
+        for(int id = 0; id < firstLayerNeuronSize; id++) /// first layer neuron size
+        {
+            counter = id;
+            index = 0;
+            firstLayerNeuron.setId(id);
+            for(int i = 0; i < 1200; i++)
+            {
+                firstTemp[id] = firstTemp[id] + (flattenArray[i] *
+                                                     convWeights.getFirstLayerWeight((counter + index*firstLayerNeuronSize)));
+                //yaz<< flattenArray[i]<<"   "<<convWeights.getFirstLayerWeight((counter + index*32))<<endl;
+                index++;
+            }
+            firstTemp[id] +=  convWeights.getFirstLayerBias(id);
+            firstLayerNeuron.setValue(firstTemp[id], id);
+
+        }
+
+        Neuron secondLayerNeuron;
+        int secondLayerNeuronSize = 16;
+        for(int id = 0; id < secondLayerNeuronSize; id++){ /// second layer neuron size
+
+            counter = id;
+            index = 0;
+            for(int j = 0; j < firstLayerNeuronSize; j++)
+            {
+               secondTemp[id] = secondTemp[id] + (firstLayerNeuron.getValue(j) *
+                                                  convWeights.getSecondLayerWeight((counter + index*secondLayerNeuronSize)));
+               index++;
+            }
+            secondTemp[id] += convWeights.getSecondLayerBias(id);
+            secondLayerNeuron.setId(id);
+            secondLayerNeuron.setValue(secondTemp[id], id);
+        }
+    Weights w1(1,512,44,44);
+    w1.setFirstLayerBias("conv3d_fc_bias_3.txt");
+    w1.setFirstLayerWeight("conv3d_fc_kernel_3.txt");
+    float resultFc = 0;
+    for(int i=0;i<16;i++)
+    {
+        resultFc += secondLayerNeuron.getValue(i) +
+                            w1.getFirstLayerWeight(i);
+    }
+    resultFc += w1.getFirstLayerBias(0);
+    cout<<"result: "<<resultFc<<endl;
+*/

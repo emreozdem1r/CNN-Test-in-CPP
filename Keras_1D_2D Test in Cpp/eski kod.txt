@@ -1,0 +1,192 @@
+#include <iostream>
+#include "mnist/mnist_reader.hpp"
+#define MNIST_DATA_LOCATION "./fashion-mnist"
+using namespace std;
+#include <stdlib.h>
+#include <math.h>
+float** iki_boyutlu(int rows, int columns)
+{
+    float** dizi;
+    dizi = new float* [rows] {};
+    for (int i = 0; i < rows; i++)
+    {
+        dizi[i] = new float[columns] {};
+    }
+    return dizi;
+}
+float** fashion_mnist_oku(int goruntu)
+{
+    float** input = iki_boyutlu(28, 28);
+    mnist::MNIST_dataset<std::vector, std::vector<uint8_t>, uint8_t> dataset =
+        mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(MNIST_DATA_LOCATION);
+    for (int row = 0; row < 28; row++)
+    {
+        for (int column = 0; column < 28; column++)
+        {
+            input[row][column] = unsigned(dataset.test_images[goruntu][(row * 28 + column)]);
+        }
+    }
+    return input;
+}
+void txt_read(float strArray3[128],float strArray4[10], float strArray[128][784], float strArray2[10][128])
+{
+    fstream oku("mnist_weight.txt");
+    string satir;
+
+
+    int i = 0, j = 0, k = 0, p = 0, l = 0, m = 0, n = 0, t = 0;
+    int lg0= 0, lg1=0, lg2=0;
+    int cntr = 0,cntr2=0;
+    if (oku.is_open())
+    {
+        while (!oku.eof())
+        {
+            oku >> satir;
+            if(i<128){
+                strArray3[i] = atof(satir.c_str());
+                //cout<<strArray3[i]<<"--"<<i<<endl;
+                i++;
+            }
+            else{
+                lg0 =1;
+            }
+
+            if(j<100352 && lg0==1){
+
+                strArray[k][p] = atof(satir.c_str());
+                //cout<<strArray[k][p]<<"--"<<j<<endl;
+                j++;
+                p++;
+                if(p==784){
+                    k++;
+                    p = 0;
+                }
+            }
+            else if(lg0==1){
+                lg1=1;
+            }
+            if(l<10 && lg1==1){
+                strArray4[l] = atof(satir.c_str());
+                //cout<<strArray4[l]<<"--"<<l<<endl;
+                l++;
+            }
+            else if(l>=10){
+                lg2=1;}
+            if(t<1280 && lg2==1){
+                strArray2[m][n]=atof(satir.c_str());
+                //cout<<strArray2[m][n]<<"--"<<t<<endl;
+                t++;
+                n++;
+                if(n==10){
+                    m++;
+                    n = 0;
+                }
+            }
+
+        }
+    }
+    oku.close();
+}
+
+
+
+
+int main()
+{
+    ofstream yaz("yaz.txt");
+
+    float** resim = fashion_mnist_oku(0);
+
+
+
+
+
+    ///////////////////////////
+    fstream oku2("new2.txt");
+    float dizi[784];
+    int f = 0;
+    string satir;
+
+    if(oku2.is_open()){
+            //cout<<"aksjd";
+    while(!oku2.eof()){
+        oku2>>satir;
+        dizi[f] = atof(satir.c_str());
+        //cout<<satir<<endl;
+        f++;
+
+    }}
+    oku2.close();
+    int i;
+    //for(i=0;i<784;i++){
+        //cout<<dizi[i]<<endl;
+    //}
+    float first=0;
+    int j=0, cnt=0;
+    for(i=0;i<28;i++){
+        for(j=0;j<28;j++){
+            first = first + (dizi[cnt]*resim[i][j]);
+            cnt++;
+        }
+    }
+    cout<<"frst"<<first<<endl;
+    /////////////////////////////////
+
+
+
+    for(int a=0; a<28; a++)
+    {
+       // cout<<"[";
+        for(int b=0; b<28; b++)
+        {
+            //cout<<resim[a][b] <<"-";
+            yaz<<resim[a][b]<<"\n";
+        }
+        //cout <<"]"<<endl;
+    }
+    float firstArray[128][784], secondArray[10][128], bias1[128],bias2[10];
+
+    txt_read(bias1, bias2, firstArray, secondArray);
+
+    float tempArray[128] = {0},    tempArray2[10] = {0};
+
+
+    ////////////////////////////////////
+
+    for(i=0;i<784;i++){
+       // cout<<dizi[i]<<" -- "<<firstArray[0][i]<<endl;
+    }
+
+    ////////////////////////////////////
+
+    cout<<"---------------------------"<<endl;
+    //cout<<firstArray[127][783];
+    int counter=0;
+
+    for(int l = 0; l < 128; l++)
+    {
+        for(int i = 0; i < 28; i++)
+        {
+            for(int j = 0; j < 28; j++)
+            {
+                tempArray[l] =tempArray[l] + (resim[i][j] * firstArray[l][counter]);
+                counter++;
+            }
+        }
+        counter = 0;
+        tempArray[l] +=  bias1[l];
+        //cout<<tempArray[0]<<endl;
+    }
+    cout<<tempArray[0]<<endl;
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 128; j++)
+        {
+            tempArray2[i] = tempArray2[i] + (tempArray[j] * secondArray[i][j]);
+
+        }
+        tempArray2[i] += bias2[i];
+       // cout<<tempArray2[i]<<endl;
+    }
+
+}
